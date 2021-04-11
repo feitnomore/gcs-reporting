@@ -1,0 +1,75 @@
+#!/bin/sh
+## Filename: gcs-reporting
+ # Author: Marcelo Feitoza Parisi
+ # 
+ # Description: Wrapper shellscript
+ # to run gcs-reporting tool.
+ # 
+ # ###########################
+ # # DISCLAIMER - IMPORTANT! #
+ # ###########################
+ # 
+ # Stuff found here was built as a
+ # Proof-Of-Concept or Study material
+ # and should not be considered
+ # production ready!
+ # 
+ # USE WITH CARE!
+##
+
+MY_PYTHON=`which python3`
+MY_PIP=`which pip3`
+MY_GSUTIL=`which gsutil`
+
+# This is only to print banner on error messages
+function print_banner()
+{
+    echo ""
+    echo "Cloud Storage bucket analysis tool"
+    echo ""
+}
+
+# Gonna check if Python3 and Pip3 are installed
+if [ -z $MY_PYTHON ]
+then
+    print_banner
+    echo "ERROR: Python3 not found"
+    echo "Python3 is a requirement to run this tool. Please make sure its installed and in your path."
+    echo ""
+    exit
+elif [ -z $MY_PIP ]
+then
+    print_banner
+    echo "ERROR: Missing Pip"
+    echo "Pip3 is a requirement to run this tool. Please make sure its installed and in your path."
+    echo ""
+    exit
+elif [ -z $MY_GSUTIL ]
+then
+    print_banner
+    echo "ERROR: Missing gsutil"
+    echo "gsutil is a requirement to run this tool. Please make sure its installed and in your path."
+    echo ""
+    exit
+else
+    if [ -f ~/.boto ]
+    then
+        # Trick to find the script location
+        cd $(dirname "$BASH_SOURCE")
+        MY_BASE=`pwd`
+        MY_LIBS="$MY_BASE/lib"
+        cd - 2>&1 >> /dev/null
+
+        # Run our program
+        $MY_PYTHON $MY_BASE/main.py $@
+
+        echo ""
+        exit
+    else
+        print_banner
+        echo "ERROR: ~/.boto not found"
+        echo "Make sure you have run gsutil config and file ~/.boto exists"
+        echo ""
+        exit
+    fi
+fi
