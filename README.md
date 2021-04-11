@@ -35,6 +35,26 @@ Main parameters are:
 * `--bucket <bucket-name>`
 * `--project <project-id>`
 
+## Install
+
+* Install Google Cloud Storage Python SDK  
+    `sudo pip3 install --upgrade google-cloud-storage`
+
+* Install gsutil   
+    `sudo pip3 install gsutil`
+
+* Install gcloud   
+    https://cloud.google.com/sdk/docs/install
+
+* Install requirements   
+    `sudo pip3 install -r requirements.txt`
+
+* In case needed, change permissions   
+    `chmod +x gcs-reporting`
+
+* Run the tool   
+    `./gcs-reporting --help`
+
 ## Development info
 This is how the tool is organized:
 * gcs-reporting - Shellscript wrapper to main.py.  
